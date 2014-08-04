@@ -9,7 +9,7 @@
 
 @implementation AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     [[NSAppleEventManager sharedAppleEventManager]
      setEventHandler:self andSelector:@selector(handleAppleEvent:withReplyEvent:)
      forEventClass:'aevt' andEventID:'odoc'];
@@ -31,7 +31,7 @@
     x += 1;
     
     const AEKeyword filekey  = '----';
-    NSString *filepath = [[[event descriptorForKeyword:filekey] stringValue] substringFromIndex:16];
+    NSString *filepath = [[[event descriptorForKeyword:filekey] stringValue] stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     NSString *filepathWithLine = [NSString stringWithFormat:@"%@:%d", filepath, x];
     filepathWithLine = [filepathWithLine stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSArray *arguments;
